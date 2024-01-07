@@ -10,6 +10,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import * as z from "zod";
+import axios from 'axios'
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -24,6 +25,8 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { useEffect, useState } from "react";
 import { FileUpload } from "../file-upload";
+import { useRouter } from "next/navigation";
+
 
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required" }),
@@ -33,6 +36,8 @@ const formSchema = z.object({
 });
 
 const IntialModal = () => {
+  
+const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -49,13 +54,22 @@ const IntialModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
-    console.log(values);
-  };
+    try {
+      await axios.post("/api/servers", values);
+
+      form.reset();
+      router.refresh();
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   if (!isMounted) {
     return null;
   }
 
+  
   return (
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
