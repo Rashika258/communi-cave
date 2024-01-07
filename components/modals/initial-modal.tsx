@@ -10,7 +10,7 @@ import {
   DialogTitle,
 } from "../ui/dialog";
 import * as z from "zod";
-import axios from 'axios'
+import axios from "axios";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -27,7 +27,6 @@ import { useEffect, useState } from "react";
 import { FileUpload } from "../file-upload";
 import { useRouter } from "next/navigation";
 
-
 const formSchema = z.object({
   name: z.string().min(1, { message: "Server name is required" }),
   imageUrl: z.string().min(1, {
@@ -36,8 +35,7 @@ const formSchema = z.object({
 });
 
 const IntialModal = () => {
-  
-const router = useRouter();
+  const router = useRouter();
   const [isMounted, setIsMounted] = useState(false);
   const form = useForm({
     resolver: zodResolver(formSchema),
@@ -63,13 +61,12 @@ const router = useRouter();
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
   if (!isMounted) {
     return null;
   }
 
-  
   return (
     <Dialog open>
       <DialogContent className="bg-white text-black p-0 overflow-hidden">
