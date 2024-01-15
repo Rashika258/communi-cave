@@ -3,11 +3,14 @@
 import { UploadDropzone } from "@/lib/uploadthing";
 import { FileIcon, X } from "lucide-react";
 import Image from "next/image";
+import "@uploadthing/react/styles.css";
+
+type UploadEndpoint = "messageFile" | "serverImage";
 
 interface FileUploadProps {
   onChange: (url?: string) => void;
   value: string;
-  endPoint: "messageFile" | "serverImage";
+  endPoint: UploadEndpoint;
 }
 
 export const FileUpload = ({ onChange, value, endPoint }: FileUploadProps) => {
@@ -52,7 +55,7 @@ export const FileUpload = ({ onChange, value, endPoint }: FileUploadProps) => {
 
   return (
     <UploadDropzone
-      endpoint={"imageUploader"}
+      endpoint={endPoint}
       onClientUploadComplete={(res) => {
         console.log("res", res);
         onChange(res?.[0]?.url);
