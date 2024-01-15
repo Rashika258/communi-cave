@@ -1,5 +1,5 @@
-import React from "react";
 import { useSocket } from "@/components/providers/socket-provider";
+import React from "react";
 import { Badge } from "./ui/badge";
 
 const SocketIndicator = () => {
