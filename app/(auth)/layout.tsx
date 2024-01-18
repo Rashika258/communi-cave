@@ -1,15 +1,7 @@
-import React from 'react';
+import React from "react";
 
-export default function Layout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-<div className='h-full items-center flex justify-center'>
-  {children}
-</div>
- 
-  )
+    <div className="h-full items-center flex justify-center">{children}</div>
+  );
 }
-

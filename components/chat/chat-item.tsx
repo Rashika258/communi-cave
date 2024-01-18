@@ -1,3 +1,5 @@
+"use client";
+
 import { useModal } from '@/hooks/use-modal-store';
 import { Member, MemberRole, Profile } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
