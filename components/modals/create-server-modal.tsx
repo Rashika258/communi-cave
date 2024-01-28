@@ -53,6 +53,7 @@ export const CreateServerModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    debugger
     try {
       await axios.post("/api/servers", values);
 

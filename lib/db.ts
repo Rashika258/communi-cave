@@ -4,10 +4,7 @@ declare global {
   var prisma: PrismaClient | undefined;
 }
 
-export const db = globalThis.prisma || new PrismaClient({
-    datasourceUrl: 'mysql://yl4ygj91bx0a8ltsjynk:pscale_pw_KaXMTt3FLRtcxnUuClSdf8n5jJR1tKI14gRwBK4dlEG@aws.connect.psdb.cloud/discord?sslaccept=strict&connect_timeout=1000'
- 
-});
+export const db = globalThis.prisma || new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") globalThis.prisma = db;
 

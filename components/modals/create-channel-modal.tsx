@@ -74,6 +74,7 @@ const CreateChannelModal = () => {
   const isLoading = form.formState.isSubmitting;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    debugger
     try {
       const url = qs.stringifyUrl({
         url: "/api/channels",
