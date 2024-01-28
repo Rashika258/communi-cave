@@ -1,7 +1,6 @@
 import { NextApiResponseServerIo } from "@/types";
-import { NextApiRequest, NextApiResponse } from "next";
-
 import { Server as NetServer } from "http";
+import { NextApiRequest } from "next";
 import { Server as ServerIO } from "socket.io";
 
 export const config = {
@@ -9,7 +8,6 @@ export const config = {
     bodyParser: false,
   },
 };
-
 
 const ioHandler = (req: NextApiRequest, res: NextApiResponseServerIo) => {
   if (!res.socket.server.io) {

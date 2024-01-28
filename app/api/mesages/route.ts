@@ -10,6 +10,7 @@ export async function GET(
   req: Request
 ) {
   try {
+    debugger
     const profile = await currentProfile();
     const { searchParams } = new URL(req.url);
 

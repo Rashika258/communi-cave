@@ -63,6 +63,13 @@ export const ChatMessages = ({
     paramValue,
   });
 
+  console.log('ertyu',  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  status);
+  
+
   useChatSocket({ queryKey, addKey, updateKey });
 
 
