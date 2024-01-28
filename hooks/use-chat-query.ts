@@ -20,11 +20,19 @@ export const useChatQuery = ({
   paramKey,
   paramValue,
 }: ChatQueryProps) => {
+
   const { isConnected } = useSocket();
+
+  console.log('aaaaaaaaaaaaaaaaaa',   queryKey,
+  apiUrl,
+  paramKey,
+  paramValue,);
+  
 
   const fetchMessages: QueryFunction<any, QueryKey, unknown> = async ({
     pageParam = undefined,
   }) => {
+    // debugger
     const queryParams: Record<string, string | undefined> = {
       cursor: pageParam as string | undefined, // Assuming cursor is a string; adjust the type accordingly
       [paramKey]: paramValue,

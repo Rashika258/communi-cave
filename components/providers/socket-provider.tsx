@@ -1,10 +1,10 @@
 "use client";
 
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { io as ClientIO } from "socket.io-client";
+import { io, Socket } from "socket.io-client";
 
 type SocketContextType = {
-  socket: any | null;
+  socket: Socket | null;
   isConnected: boolean;
 };
 
@@ -13,36 +13,45 @@ const SocketContext = createContext<SocketContextType>({
   isConnected: false,
 });
 
-export const useSocket = () => {
+export function useSocket() {
   return useContext(SocketContext);
-};
+}
 
-const SocketProvider = ({ children }: { children: React.ReactNode }) => {
-  const [socket, setSocket] = useState(null);
+const SocketProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [socket, setSocket] = useState<Socket | null>(null);
   const [isConnected, setIsConnected] = useState(false);
 
   useEffect(() => {
-    const socketInstance = new (ClientIO as any)(
-      process.env.NEXT_PUBLIC_SITE_URL!,
-      {
+    const initializeSocket = async () => {
+      const socketInstance = io(process.env.NEXT_PUBLIC_SITE_URL!, {
         path: "/api/socket/io",
         addTrailingSlash: false,
-      }
-    );
+      });
 
-    socketInstance.on("connect", () => {
-      setIsConnected(true);
-    });
+      socketInstance.on("connect", () => {
 
-    socketInstance.on("disconnect", () => {
-      setIsConnected(false);
-    });
+      console.log('Conmected')
+        setIsConnected(true);
+      });
 
-    setSocket(socketInstance);
-    return () => {
-      socketInstance.disconnect();
+      socketInstance.on("disconnect", () => {
+        setIsConnected(false);
+      });
+
+      setSocket(socketInstance);
     };
-  }, []);
+
+    initializeSocket();
+
+    // Clean up the socket on component unmount
+    return () => {
+      if (socket) {
+        socket.disconnect();
+      }
+    };
+  }, []); // Depend on `socket` to avoid unnecessary reinitialization
+
+  console.log('aaa', socket, isConnected)
 
   return (
     <SocketContext.Provider value={{ socket, isConnected }}>
