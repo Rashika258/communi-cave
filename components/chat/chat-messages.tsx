@@ -10,7 +10,7 @@ import { useChatSocket } from "@/hooks/use-chat-socket";
 import { useChatScroll } from "@/hooks/use-chat-scroll";
 
 import { ChatWelcome } from "./chat-welcome";
-import ChatItem from "./chat-item";
+import { ChatItem } from "./chat-item";
 
 const DATE_FORMAT = "d MMM yyyy, HH:mm";
 
@@ -62,17 +62,7 @@ export const ChatMessages = ({
     paramKey,
     paramValue,
   });
-
-  console.log('ertyu',  data,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  status);
-  
-
   useChatSocket({ queryKey, addKey, updateKey });
-
-
   useChatScroll({
     chatRef,
     bottomRef,
@@ -81,7 +71,7 @@ export const ChatMessages = ({
     count: data?.pages?.[0]?.items?.length ?? 0,
   })
 
-  if (status?.toString() === "loading") {
+  if (status === "loading") {
     return (
       <div className="flex flex-col flex-1 justify-center items-center">
         <Loader2 className="h-7 w-7 text-zinc-500 animate-spin my-4" />
@@ -129,7 +119,7 @@ export const ChatMessages = ({
       <div className="flex flex-col-reverse mt-auto">
         {data?.pages?.map((group, i) => (
           <Fragment key={i}>
-            {group?.items?.map((message: MessageWithMemberWithProfile) => (
+            {group.items.map((message: MessageWithMemberWithProfile) => (
               <ChatItem
                 key={message.id}
                 id={message.id}

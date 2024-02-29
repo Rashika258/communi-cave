@@ -4,10 +4,10 @@ import { redirect } from "next/navigation";
 import { db } from "@/lib/db";
 import { getOrCreateConversation } from "@/lib/conversation";
 import { currentProfile } from "@/lib/current-profile";
-import {ChatHeader} from "@/components/chat/chat-header";
-import  {ChatMessages}  from "@/components/chat/chat-messages";
-import  {ChatInput}  from "@/components/chat/chat-input";
-import  MediaRoom  from "@/components/media-room";
+import { ChatHeader } from "@/components/chat/chat-header";
+import { ChatMessages } from "@/components/chat/chat-messages";
+import { ChatInput } from "@/components/chat/chat-input";
+import MediaRoom from "@/components/media-room";
 
 interface MemberIdPageProps {
   params: {
@@ -54,7 +54,7 @@ const MemberIdPage = async ({
   const otherMember = memberOne.profileId === profile.id ? memberTwo : memberOne;
 
   return ( 
-    <div className="bg-white dark:bg-[#0b0b0d] flex flex-col h-full">
+    <div className="bg-white dark:bg-[#313338] flex flex-col h-full">
       <ChatHeader
         imageUrl={otherMember.profile.imageUrl}
         name={otherMember.profile.name}

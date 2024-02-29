@@ -1,9 +1,5 @@
 import qs from "query-string";
-import {
-  QueryFunction,
-  QueryKey,
-  useInfiniteQuery,
-} from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
 import { useSocket } from "@/components/providers/socket-provider";
 
@@ -12,52 +8,41 @@ interface ChatQueryProps {
   apiUrl: string;
   paramKey: "channelId" | "conversationId";
   paramValue: string;
-}
+};
 
 export const useChatQuery = ({
   queryKey,
   apiUrl,
   paramKey,
-  paramValue,
+  paramValue
 }: ChatQueryProps) => {
-
   const { isConnected } = useSocket();
 
-  console.log('aaaaaaaaaaaaaaaaaa',   queryKey,
-  apiUrl,
-  paramKey,
-  paramValue,);
-  
-
-  const fetchMessages: QueryFunction<any, QueryKey, unknown> = async ({
-    pageParam = undefined,
-  }) => {
-    // debugger
-    const queryParams: Record<string, string | undefined> = {
-      cursor: pageParam as string | undefined, // Assuming cursor is a string; adjust the type accordingly
-      [paramKey]: paramValue,
-    };
-
-    const url = qs.stringifyUrl(
-      {
-        url: apiUrl,
-        query: queryParams,
-      },
-      { skipNull: true }
-    );
+  const fetchMessages = async ({ pageParam = undefined }) => {
+    const url = qs.stringifyUrl({
+      url: apiUrl,
+      query: {
+        cursor: pageParam,
+        [paramKey]: paramValue,
+      }
+    }, { skipNull: true });
 
     const res = await fetch(url);
     return res.json();
   };
-  const { data, fetchNextPage, hasNextPage, isFetchingNextPage, status } =
-    useInfiniteQuery<any, Error>({
-      queryKey: [queryKey],
-      queryFn: fetchMessages,
-      getNextPageParam: (lastPage) => lastPage?.nextCursor,
-      refetchInterval: isConnected ? false : 1000,
-      initialData: undefined,
-      initialPageParam: undefined,
-    });
+
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = useInfiniteQuery({
+    queryKey: [queryKey],
+    queryFn: fetchMessages,
+    getNextPageParam: (lastPage) => lastPage?.nextCursor,
+    refetchInterval: isConnected ? false : 1000,
+  });
 
   return {
     data,
@@ -66,4 +51,4 @@ export const useChatQuery = ({
     isFetchingNextPage,
     status,
   };
-};
+}
