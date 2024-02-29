@@ -32,7 +32,6 @@ export async function PATCH(
   req: Request,
   { params }: { params: { serverId: string } }
 ) {
-  debugger
   try {
     const profile = await currentProfile();
     const { name, imageUrl } = await req.json();
